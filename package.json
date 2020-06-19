@@ -1,0 +1,87 @@
+{
+	"name": "aria-vscode",
+	"displayName": "Aria Music",
+	"description": "Aria Music VSCode Extension",
+	"publisher": "Sarisia",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/aria-music/aria-vscode"
+	},
+	"version": "0.0.1",
+	"engines": {
+		"vscode": "^1.46.0"
+	},
+	"categories": [
+		"Other"
+	],
+	"activationEvents": [
+		"*",
+		"onStartupFinished"
+	],
+	"main": "./out/extension.js",
+	"contributes": {
+		"commands": [
+			{
+				"command": "aria-vscode.skip",
+				"category": "Aria Music",
+				"title": "Skip This Song"
+			},
+			{
+				"command": "aria-vscode.pause",
+				"category": "Aria Music",
+				"title": "Pause Player"
+			},
+			{
+				"command": "aria-vscode.resume",
+				"category": "Aria Music",
+				"title": "Resume Player"
+			}
+		],
+		"configuration": {
+			"title": "Aria Music",
+			"properties": {
+				"aria-vscode.Endpoint": {
+					"type": "string",
+					"description": "Aria Core REST Endpoint",
+					"default": "https://aria.gaiji.pro/control",
+					"scope": "application"
+				},
+				"aria-vscode.websocketEndpoint": {
+					"type": "string",
+					"description": "Aria Core WebSocket Endpoint",
+					"default": "wss://aria.gaiji.pro/",
+					"scope": "application"
+				},
+				"aria-vscode.token": {
+					"type": "string",
+					"description": "Valid token to access Aria API",
+					"scope": "application"
+				}
+			}
+		}
+	},
+	"scripts": {
+		"vscode:prepublish": "npm run compile",
+		"compile": "tsc -p ./",
+		"lint": "eslint src --ext ts",
+		"watch": "tsc -watch -p ./",
+		"pretest": "npm run compile && npm run lint",
+		"test": "node ./out/test/runTest.js"
+	},
+	"devDependencies": {
+		"@types/vscode": "^1.46.0",
+		"@types/glob": "^7.1.1",
+		"@types/mocha": "^7.0.2",
+		"@types/node": "^13.11.0",
+		"eslint": "^6.8.0",
+		"@typescript-eslint/parser": "^2.30.0",
+		"@typescript-eslint/eslint-plugin": "^2.30.0",
+		"glob": "^7.1.6",
+		"mocha": "^7.1.2",
+		"typescript": "^3.8.3",
+		"vscode-test": "^1.3.0"
+	},
+	"dependencies": {
+		"axios": "^0.19.2"
+	}
+}

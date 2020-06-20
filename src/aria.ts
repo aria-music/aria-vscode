@@ -55,7 +55,7 @@ export class AriaMusic implements vscode.Disposable {
                     "Set Token",
                 );
                 if (selected) {
-                    // TODO: open preference window
+                    vscode.commands.executeCommand('workbench.action.openSettings', 'aria-vscode.token');
                 };
             } else {
                 await vscode.window.showErrorMessage(`Failed to dispatch event: ${e.message}`);

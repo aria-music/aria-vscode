@@ -1,19 +1,20 @@
 // WebSocketConnector, RESTConnector
 
 import axios, { AxiosInstance } from 'axios';
-import { AriaConnector, AriaConfig, AriaEvent, TokenError } from './types';
+import { AriaConnector, AriaConfig, TokenError } from './types';
 
-export class RESTConnector implements AriaConnector {
+export class RESTConnector extends AriaConnector {
     endpoint: string;
     private token: string;
 
-    private cli!: AxiosInstance;
+    private _cli!: AxiosInstance;
 
     constructor(config: AriaConfig) {
+        super();
         this.endpoint = config.restEndpoint;
         this.token = config.token;
 
-        this.cli = axios.create({
+        this._cli = axios.create({
             baseURL: this.endpoint,
             timeout: 10000,
             // TODO: support in Aria Core API 2.0
@@ -23,18 +24,11 @@ export class RESTConnector implements AriaConnector {
         });
     }
 
-    open() {}
-    close() {}
-
     async dispatch(op: string, data?: {}) {
         if (!this.token) {
             throw new TokenError("Token is missing.");
         }
         return await this._doRequest(op, data);
-    }
-
-    registerCallback(callback: (event: AriaEvent) => void): () => void {
-        return (() => {});
     }
 
     async _doRequest(op: string, data?: {}) {
@@ -46,7 +40,7 @@ export class RESTConnector implements AriaConnector {
             payload.data = data;
         }
         try {
-            await this.cli.post('', payload);
+            await this._cli.post('', payload);
         } catch (e) {
             if (e.response?.status === 403) {
                 throw new TokenError("Invalid token.");

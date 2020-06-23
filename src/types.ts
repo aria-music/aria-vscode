@@ -4,14 +4,13 @@ export interface AriaConfig {
     token: string;
 }
 
-// TODO: class is more suitable for this case i think
-export interface AriaConnector {
-    // open prepares Connector, then open connection
-    // throws Exception if failed to open
-    open(): void;
-    close(): void;
-    dispatch(op: string, data?: {}): Promise<any>;
-    registerCallback(callback: (event: AriaEvent) => void): () => void;
+export abstract class AriaConnector {
+    open() {};
+    close() {};
+    dispatch(op: string, data?: {}): Promise<any> {
+        return new Promise(() => {});
+    };
+    registerCallback(callback: (event: AriaEvent) => void) {};
 }
 
 export interface AriaEvent {
